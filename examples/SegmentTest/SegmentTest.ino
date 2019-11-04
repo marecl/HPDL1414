@@ -13,6 +13,7 @@ void setup() {
   delay(1000);
   d.clear();
 
+  /* List all connected segments */
   for (uint8_t a = 0; a < sizeof(wrenPins); a++)
     d.print("SEG" + String(a + 1));
 }
