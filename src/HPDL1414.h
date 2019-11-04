@@ -1,5 +1,5 @@
-#ifndef _HPDL1414
-#define _HPDL1414
+#ifndef HPDL1414_H
+#define HPDL1414_H
 
 #include <string.h>
 
@@ -111,4 +111,4 @@ class HPDL1414 {
     byte bytesLeft;
 };
 
-#endif //HPDL1414
+#endif //HPDL1414_H
