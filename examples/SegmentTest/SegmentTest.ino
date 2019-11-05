@@ -7,6 +7,7 @@ const byte wrenPins[] = {A0}; // Right to left
 HPDL1414 d(&dataPins[0], &addrPins[0], &wrenPins[0], sizeof(wrenPins));
 
 void setup() {
+  d.begin();
   d.printOverflow(true);
   d.clear();
   d.print("DTST");
