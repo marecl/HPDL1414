@@ -2,3 +2,4 @@ HPDL1414	KEYWORD1
 printChar	KEYWORD2
 setDigit	KEYWORD2
 printOverflow	KEYWORD2
+segments	KEYWORD2

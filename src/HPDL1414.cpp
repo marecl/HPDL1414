@@ -8,7 +8,8 @@ HPDL1414::HPDL1414(const byte* _data, const byte* _address,
   printOvf = false;
 };
 
-void HPDL1414::begin() {
+void HPDL1414::begin(void) {
+  /* Disable writing first */
   for (byte a = 0; a < 7; a++) {
     pinMode(dp[a], OUTPUT);
     digitalWrite(wr[a], LOW);
@@ -23,25 +24,33 @@ void HPDL1414::begin() {
   }
 };
 
-int8_t HPDL1414::print(String t) {
+void HPDL1414::print(String t) {
   return print(t.c_str());
 };
 
-int8_t HPDL1414::print(const char* t) {
+void HPDL1414::print(String t, uint8_t pos) {
+  print(t.c_str(), pos);
+};
+
+/* I guess these two can be optimized */
+void HPDL1414::print(const char* t, uint8_t pos) {
   uint8_t l = strlen(t);
-  int8_t a = 0;
-  for (; ((bytesWritten < c * 4 || printOvf) &&
-          (a < l || !printOvf)); a++) {
-    printChar(t[a]);
+  for (int8_t a = 0; (a < l) && (printOvf || (a + pos) < 4 * c); a++) {
+    printChar(t[a], a + pos);
   }
-  return a;
+}
+
+void HPDL1414::print(const char* t) {
+  uint8_t l = strlen(t);
+  for (int8_t a = 0; (a < l) && (printOvf || bytesWritten < 4 * c); a++) {
+    printChar(t[a], bytesWritten++);
+  }
 }
 
 /* Print on next available digit */
 void HPDL1414::printChar(char a) {
   if (bytesWritten == c * 4) bytesWritten = 0;
-  printChar(a, bytesWritten);
-  bytesWritten++;
+  printChar(a, bytesWritten++);
 };
 
 /* Print on specific digit (beginning at 0) */
@@ -66,7 +75,7 @@ void HPDL1414::setDigit(byte a) {
   digitalWrite(ap[1], a & 0x02);
 };
 
-void HPDL1414::clear() {
+void HPDL1414::clear(void) {
   for (byte a = 0; a < c * 4; a++) {
     setDigit(a);
     printChar(' ', a);
@@ -78,6 +87,11 @@ void HPDL1414::clear() {
 void HPDL1414::printOverflow(bool a) {
   printOvf = a;
 };
+
+/* Check how many segments are configured */
+uint8_t HPDL1414::segments(void) {
+  return this->c;
+}
 
 char HPDL1414::translate(char i) {
   if (i > 31 && i < 96) return i;

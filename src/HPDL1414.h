@@ -24,17 +24,26 @@ class HPDL1414 {
   public:
     HPDL1414(const byte*, const byte*,
              const byte*, const byte);
-    void begin();
-    int8_t print(String);
-    int8_t print(const char*);
+    void begin(void);
+	
+	/* Print anything */
+    void print(String);
+    void print(const char*);
     void printChar(char);
+	
+	/* Print strings beginning on specific index */
+    void print(String, uint8_t);
+    void print(const char*, uint8_t);
     void printChar(char, byte);
-    void setDigit(byte);
-    void clear();
+	
+	/* Misc */
+    void clear(void);
     void printOverflow(bool);
+    uint8_t segments(void);
 
   private:
     char translate(char);
+    void setDigit(byte);
     const byte* dp;  // Data
     const byte* ap;  // Address
     const byte* wr;  // !Write Enable
