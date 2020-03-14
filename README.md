@@ -33,4 +33,7 @@ SegmentTest.ino - Test one/more segments. Every segment will be counted.
 ### Limitations
 These displays display limited set of characters (ASCII 32-95) but works with small letters too (now).
 
+### Does it work?
+![Of course it does!](/testing.jpg)
+
 ### [Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)

@@ -20,6 +20,7 @@
     Count: segments
 */
 
+/* Note to self: Plz use stream for printing */
 class HPDL1414 {
   public:
     HPDL1414(const byte*, const byte*,

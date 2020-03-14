@@ -18,7 +18,7 @@ void HPDL1414::begin(void) {
     pinMode(ap[a], OUTPUT);
     digitalWrite(wr[a], LOW);
   }
-  for (byte a = 0; a < c; a++) {
+  for (byte a = 0; a < this->c; a++) {
     pinMode(wr[a], OUTPUT);
     digitalWrite(wr[a], HIGH);
   }
@@ -47,6 +47,7 @@ void HPDL1414::print(const char* t) {
   }
 }
 
+#warning "Do not get used to printChar()"
 /* Print on next available digit */
 void HPDL1414::printChar(char a) {
   if (bytesWritten == c * 4) bytesWritten = 0;
@@ -76,10 +77,22 @@ void HPDL1414::setDigit(byte a) {
 };
 
 void HPDL1414::clear(void) {
-  for (byte a = 0; a < c * 4; a++) {
-    setDigit(a);
-    printChar(' ', a);
-  }
+  /* Set characters to zero */
+  for (byte a = 0; a < 7; a++)
+    digitalWrite(dp[a], LOW);
+
+  /* Activate all segments */
+  for (byte a = 0; a < this->c; a++)
+    digitalWrite(wr[a], LOW);
+
+  /* Sweep all address lines */
+  for (byte a = 0; a < 4; a++)
+    this->setDigit(a);
+
+  /* De-activate all segments back */
+  for (byte a = 0; a < this->c; a++)
+    digitalWrite(wr[a], HIGH);
+
   bytesWritten = 0;
 };
 
