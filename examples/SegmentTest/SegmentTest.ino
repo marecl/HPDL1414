@@ -1,22 +1,22 @@
 #include <HPDL1414.h>
 
 const byte dataPins[7] = {2, 3, 4, 5, 6, 7, 8}; // Segment data pins: D0 - D6
-const byte addrPins[2] = {A2, A1}; // Segment address pins: A0, A1
-const byte wrenPins[] = {A0}; // Right to left
+const byte addrPins[2] = {A1, A2}; // Segment address pins: A0, A1
+const byte wrenPins[] = {A0}; // Write Enable pins (left to right)
 
-HPDL1414 d(&dataPins[0], &addrPins[0], &wrenPins[0], sizeof(wrenPins));
+HPDL1414 hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 
 void setup() {
-  d.begin();
-  d.printOverflow(true);
-  d.clear();
-  d.print("DTST");
+  hpdl.begin();
+  hpdl.printOverflow(true);
+  hpdl.clear();
+  hpdl.print("DTST");
   delay(1000);
-  d.clear();
+  hpdl.clear();
 
   /* List all connected segments */
-  for (uint8_t a = 0; a < sizeof(wrenPins); a++)
-    d.print("SEG" + String(a + 1));
+  for (uint8_t a = 0; a < hpdl.segments(); a++)
+    hpdl.print("SEG" + String(a + 1));
 }
 
 void loop() {

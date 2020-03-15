@@ -2,6 +2,7 @@
 #define HPDL1414_H
 
 #include "Arduino.h"
+#include "Print.h"
 #include <string.h>
 
 /*
@@ -20,27 +21,20 @@
     Count: segments
 */
 
-/* Note to self: Plz use stream for printing */
-class HPDL1414 {
+class HPDL1414 : public Print {
   public:
-    HPDL1414(const byte*, const byte*,
-             const byte*, const byte);
+    HPDL1414(const byte[7], const byte[2],
+             const byte[], const byte);
     void begin(void);
-	
-	/* Print anything */
-    void print(String);
-    void print(const char*);
-    void printChar(char);
-	
-	/* Print strings beginning on specific index */
-    void print(String, uint8_t);
-    void print(const char*, uint8_t);
-    void printChar(char, byte);
-	
-	/* Misc */
+
+    /* Print whatever you want */
+    virtual size_t write(uint8_t);
+
+    /* Misc */
     void clear(void);
+    void setCursor(unsigned short);
     void printOverflow(bool);
-    uint8_t segments(void);
+    unsigned short segments(void);
 
   private:
     char translate(char);
@@ -49,8 +43,9 @@ class HPDL1414 {
     const byte* ap;  // Address
     const byte* wr;  // !Write Enable
     const byte c;    // Segments
+    const byte maxcap; // Max digits
     bool printOvf;
-    byte bytesWritten;
+    byte cursorPos;
 };
 
 #endif //HPDL1414_H
