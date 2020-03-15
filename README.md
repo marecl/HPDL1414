@@ -42,7 +42,7 @@ HPDL1414 hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 | (11) D3  |    D5   |
 | (12) D6  |    D8   |
 
-### Daisychainin
+### Daisychain
 1. Connect all pins in parallel *except* for the !WE pin.
 2. Add segment's !WE pin to the code
 3. Done
@@ -66,4 +66,4 @@ These displays display limited set of characters (ASCII 32-95) but work with sma
 ### Does it work?
 ![Of course it does!](/testing.jpg)
 
-### [Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
+### [HPDL1414 Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
