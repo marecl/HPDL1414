@@ -2,11 +2,7 @@
 
 HPDL1414::HPDL1414(const byte* _data, const byte* _address,
                    const byte* _wren, const byte _count)
-  : dp(_data), ap(_address), wr(_wren), c(_count), maxcap(_count * 4) {
-
-  cursorPos = 0;
-  printOvf = false;
-};
+  : dp(_data), ap(_address), wr(_wren), c(_count), maxcap(_count * 4) {};
 
 void HPDL1414::begin(void) {
   for (byte a = 0; a < 7; a++) {
@@ -21,7 +17,9 @@ void HPDL1414::begin(void) {
     pinMode(wr[a], OUTPUT);
     digitalWrite(wr[a], HIGH);
   }
+
   cursorPos = 0;
+  printOvf = false;
 };
 
 size_t HPDL1414::write(uint8_t data) {

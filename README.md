@@ -1,5 +1,3 @@
-
-
 # HPDL1414 Arduino Library
 
 Arduino wrapper for HPDL1414, 14-segment displays.
@@ -60,7 +58,7 @@ hpdl.setCursor(unsigned short)
 ```
 ### Examples
 SegmentTest - Test one/more segments. Every segment will be counted.  
-OverflowTest - [Partially broken] Change default behaviour when characters don't fit in the display. Choose between truncating or auto-returning to the most left side.
+OverflowTest - Change the default behaviour when characters don't fit in the display. Choose between truncating or auto-returning to the most left side.
 
 ### Limitations
 These displays display limited set of characters (ASCII 32-95) but work with small letters too (now).
