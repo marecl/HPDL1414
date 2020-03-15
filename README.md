@@ -42,7 +42,7 @@ HPDL1414 hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 | (11) D3  |    D5   |
 | (12) D6  |    D8   |
 
-### Daisychainin
+### Daisychain
 1. Connect all pins in parallel *except* for the !WE pin.
 2. Add segment's !WE pin to the code
 3. Done
