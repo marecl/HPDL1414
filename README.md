@@ -66,4 +66,4 @@ These displays display limited set of characters (ASCII 32-95) but work with sma
 ### Does it work?
 ![Of course it does!](/testing.jpg)
 
-### [Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
+### [HPDL1414 Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
