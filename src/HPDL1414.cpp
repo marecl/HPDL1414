@@ -43,12 +43,12 @@ void HPDL1414::begin(void) {
 
 size_t HPDL1414::write(uint8_t data) {
   if (cursorPos >= this->maxcap) {
-    if (printOvf) cursorPos = cursorPos % (this->c * 4);
+    if (printOvf) cursorPos = 0;
     else return 0;
   }
 
   byte seg = (cursorPos - (cursorPos % 4)) / 4;
-  setDigit(3 - (cursorPos % 4));
+  setDigit(cursorPos);
 
   data = translate(data);
   for (byte x = 0; x < 7; x++)
@@ -105,6 +105,6 @@ char HPDL1414::translate(char i) {
 
 /* Particular digit of a segment */
 void HPDL1414::setDigit(byte a) {
-  digitalWrite(ap[0], a & 0x01);
-  digitalWrite(ap[1], a & 0x02);
+  digitalWrite(ap[0], !(a & 0x01));
+  digitalWrite(ap[1], !(a & 0x02));
 };
