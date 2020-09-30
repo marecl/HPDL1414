@@ -8,7 +8,7 @@ The library consists of the most basic commands for these displays. They have qu
 ### Configuration
 Data pins D0 to D7. 
 ```
-const byte dataPins[7] = {/* D0, D1, ..., D7 */};
+const byte dataPins[7] = {/* D0, D1, ..., D6 */};
 ```
 Address pins A0, A1
 ```
