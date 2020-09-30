@@ -6,7 +6,7 @@ Arduino wrapper for HPDL1414, 14-segment displays.
 The library consists of the most basic commands for these displays. They have quite limited character range and don't support custom glyphs.
 
 ### Configuration
-Data pins D0 to D7. 
+Data pins D0 to D6. 
 ```
 const byte dataPins[7] = {/* D0, D1, ..., D6 */};
 ```
@@ -67,3 +67,10 @@ These displays display limited set of characters (ASCII 32-95) but work with sma
 ![Of course it does!](/testing.jpg)
 
 ### [HPDL1414 Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
+
+### Consider donating?
+I'm just a student tinkering around in my free time. Nothing says "thanks" better than a bottle of *beverage* ;)  
+
+ETH: 0x402071e3a4969B0FB5Cc8A894F83f0a1Ce627c06  
+DOT: 1aRoKeqeR3hpknjf65926TR5xb8H55JuZEMrtweUCRjAPVZ  
+RVN: RNVB2UTYXW8XRTtmKU4GcxsitkS4Jai2gX  
