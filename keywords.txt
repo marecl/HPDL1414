@@ -1,4 +1,19 @@
 HPDL1414	KEYWORD1
-printOverflow	KEYWORD2
+HPDL1414Scroll	KEYWORD1
+
+setCharAt	KEYWORD2
+charAt	KEYWORD2
+clear	KEYWORD2
 setCursor	KEYWORD2
+printOverflow	KEYWORD2
 segments	KEYWORD2
+
+display	KEYWORD2
+scroll	KEYWORD2
+scrollStop	KEYWORD2
+scrollManual	KEYWORD2
+scrollAuto	KEYWORD2
+scrollReset	KEYWORD2
+scrollBoundaries	KEYWORD2
+scrollDirection	KEYWORD2
+setBufferCursor	KEYWORD2

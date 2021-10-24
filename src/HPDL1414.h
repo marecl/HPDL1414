@@ -1,7 +1,7 @@
 /*
     HPDL1414 Arduino Library
 
-    Copyright (C) 2020  Marek Ledworowski (@marecl)
+    Copyright (C) 2021  Marek Ledworowski (@marecl)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,46 +25,68 @@
 #include <string.h>
 
 /*
-   Pinout (notch on case is pin 1):
-    1 - D5         7 - GND
-    2 - D4         8 - D0
-    3 - !WREN      9 - D1
-    4 - A1        10 - D2
-    5 - A0        11 - D3
-    6 - Vcc       12 - D6
-
-    All arrays: LSB to MSB / right to left
-    Data: 7
-    Address: 2
-    WREN: How many you have
-    Count: segments
+	to self: change translate to substitute value directly without a function call
+	document defines
+	make defines work (in scroll too!)
 */
 
-class HPDL1414 : public Print {
-  public:
-    HPDL1414(const byte[7], const byte[2],
-             const byte[], const byte);
-    void begin(void);
+/*
+	Uncomment to skip checking/correcting incoming characters
+	By doing this you hereby promise to use uppercase letters only
+*/
+//#define NO_ASCII_CHECK
+/*
+	All invalid cursor settings are clamped at max
+	This define will make invalid values valid
+	This affects both buffer and display
+*/
+//#define NO_CURSOR_CLAMP
 
-    /* Print whatever you want */
-    virtual size_t write(uint8_t);
 
-    /* Misc */
-    void clear(void);
-    void setCursor(unsigned short);
-    void printOverflow(bool);
-    unsigned short segments(void);
+class HPDL1414 : public Print
+{
+	public:
+		/* 7 data pins [D0:D6], address [A0:A1], write enable [L:R], number of displays */
 
-  private:
-    char translate(char);
-    void setDigit(byte);
-    const byte* dp;  // Data
-    const byte* ap;  // Address
-    const byte* wr;  // !Write Enable
-    const byte c;    // Segments
-    const byte maxcap; // Max digits
-    bool printOvf;
-    byte cursorPos;
+		// make this all const again or die trying
+		HPDL1414(byte _data[7], byte _address[2],
+		         byte _wren[], byte _count);
+
+		/* Init important stuff */
+		virtual void begin(void);
+
+		/* Print whatever you want */
+		virtual size_t write(byte data);
+
+		/* Buffered string manipulation */
+		void setCharAt(byte pos, char data);	// in buffer
+		char charAt(byte pos);					// in buffer
+
+		/* Clears buffer and display */
+		virtual void clear(void);
+		/* Sets display cursor only */
+		void setCursor(byte pos);
+
+		/* Misc */
+		void printOverflow(bool);
+		byte segments(void);
+
+	protected:
+		/* In case if using HPDL1414Scroll */
+		HPDL1414();
+		/* Text buffer */
+		byte cursorPos;
+		/* Misc */
+		bool printOvf;
+
+		void put(byte, char);
+		char translate(char);
+		void setDigit(byte);
+		byte* dp;  // Data
+		byte* ap;  // Address
+		byte* wr;  // !Write Enable
+		byte c;    // Segments
+		byte maxcap; // Max digits
 };
 
 #endif //HPDL1414_H

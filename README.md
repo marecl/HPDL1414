@@ -49,26 +49,36 @@ HPDL1414 hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 
 ### What you will care about the most
 You can print everything that Arduino would let you on other displays.
-In normal use you won't need more than these:
+For basic use you won't need more than these:
 
 ```
 hpdl.print()
 hpdl.clear()
-hpdl.setCursor(unsigned short)
+hpdl.setCursor(byte pos)
 ```
+
+### [WIP] Extra features
+This release of HPDL1414 library includes text scrolling via ```HPDL1414Scroll.h```.  
+It will require using new base object ```HPDL1414Scroll``` and ```display()``` method.  
+Features include:
+* Auto scrolling
+* Manual step
+* Scrolling direction
+
 ### Examples
 SegmentTest - Test one/more segments. Every segment will be counted.  
-OverflowTest - Change the default behaviour when characters don't fit in the display. Choose between truncating or auto-returning to the most left side.
+OverflowTest - Change the default behaviour when characters don't fit in the display. Choose between truncating or auto-returning to the most left side.  
+(more to be added!)
 
 ### Limitations
-These displays display limited set of characters (ASCII 32-95) but work with small letters too (now).
+These displays work on limited set of characters (ASCII 32-95). Library has built-in "translator" for lowercase letters.
 
 ### Does it work?
-![Of course it does!](/testing.jpg)
+![Of course it does!](/res/testing.jpg)
 
 ### [HPDL1414 Documentation](https://media.digikey.com/pdf/Data%20Sheets/Avago%20PDFs/HPDL-1414.pdf)
 
-### Consider donating?
+#### Consider donating?
 I'm just a student tinkering around in my free time. Nothing says "thanks" better than a bottle of *beverage* ;)  
 
 ETH: 0x402071e3a4969B0FB5Cc8A894F83f0a1Ce627c06  
