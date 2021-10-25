@@ -30,11 +30,10 @@ class HPDL1414Scroll : public HPDL1414
 		               byte _wren[], byte _count);
 
 		/* Init important(er) stuff */
-		void begin(void) override;
+		virtual void begin(void) override;
 
 		/* Print whatever you want */
 		virtual size_t write(byte data) override;
-		virtual size_t write(byte* data, byte size);
 
 		/* But remember to display */
 		void display(void);

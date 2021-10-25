@@ -35,47 +35,22 @@ HPDL1414Scroll::HPDL1414Scroll(byte* _data, byte* _address,
 
 void HPDL1414Scroll::begin(void)
 {
-	buffer = new char[maxcap];
-	cursorPos = 0;
-	bufferPos = 0;
-	printOvf = false;
-
+	_begin();
 	scrollReset();
-
-	for(byte a = 0; a < 7; a++)
-	{
-		pinMode(dp[a], OUTPUT);
-		digitalWrite(dp[a], LOW);
-	}
-	for(byte a = 0; a < 2; a++)
-	{
-		pinMode(ap[a], OUTPUT);
-		digitalWrite(ap[a], LOW);
-	}
-	for(byte a = 0; a < c; a++)
-	{
-		pinMode(wr[a], OUTPUT);
-		digitalWrite(wr[a], HIGH);
-	}
+	buffer = new char[maxcap];
+	bufferPos = 0;
 };
 
 // won't allow writing more than the buffer can handle
 size_t HPDL1414Scroll::write(byte data)
 {
 	if(bufferPos >= maxcap)
-		return 0;
+		if(printOvf)
+			bufferPos = 0;
+		else return 0;
 
 	this->buffer[bufferPos++] = translate(data);
 	return 1;
-}
-
-size_t HPDL1414Scroll::write(uint8_t* data, uint8_t size)
-{
-	uint8_t r = 0;
-	while((cursorPos < maxcap) && (r < size))
-		buffer[cursorPos++] = data[r++];
-
-	return r;
 }
 
 void HPDL1414Scroll::display()
@@ -156,24 +131,8 @@ char HPDL1414Scroll::charAt(byte pos)
 
 void HPDL1414Scroll::clear(void)
 {
-	/* Set characters to zero */
-	for(byte a = 0; a < 7; a++)
-		digitalWrite(dp[a], LOW);
-
-	/* Activate all segments */
-	for(byte a = 0; a < c; a++)
-		digitalWrite(wr[a], LOW);
-
-	/* Sweep all address lines */
-	for(byte a = 0; a < 4; a++)
-		setDigit(a);
-
-	/* De-activate all segments back */
-	for(byte a = 0; a < c; a++)
-		digitalWrite(wr[a], HIGH);
-
+	_clear();
 	memset(buffer, ' ', maxcap);
-	cursorPos = 0;
 	bufferPos = 0;
 };
 

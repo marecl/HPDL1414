@@ -74,11 +74,13 @@ class HPDL1414 : public Print
 	protected:
 		/* In case if using HPDL1414Scroll */
 		HPDL1414();
-		/* Text buffer */
+		/* Current cursor position */
 		byte cursorPos;
 		/* Misc */
 		bool printOvf;
 
+		void _begin();
+		void _clear();
 		void put(byte, char);
 		char translate(char);
 		void setDigit(byte);

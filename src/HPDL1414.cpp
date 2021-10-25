@@ -39,6 +39,43 @@ HPDL1414::HPDL1414() {}
 
 void HPDL1414::begin(void)
 {
+	_begin();
+}
+
+// won't allow writing more than the buffer can handle
+size_t HPDL1414::write(byte data)
+{
+	if(cursorPos >= maxcap)
+		return 0;
+
+	put(cursorPos++, translate(data));
+	return 1;
+}
+
+void HPDL1414::clear(void)
+{
+	_clear();
+};
+
+void HPDL1414::setCursor(byte pos)
+{
+	cursorPos = (pos >= maxcap) ? cursorPos : pos;
+}
+
+/* Decide if overflowing characters should be printed */
+void HPDL1414::printOverflow(bool a)
+{
+	printOvf = a;
+};
+
+/* Check how many segments are configured */
+byte HPDL1414::segments(void)
+{
+	return c;
+}
+
+void HPDL1414::_begin(void)
+{
 	cursorPos = 0;
 	printOvf = false;
 
@@ -59,17 +96,7 @@ void HPDL1414::begin(void)
 	}
 }
 
-// won't allow writing more than the buffer can handle
-size_t HPDL1414::write(byte data)
-{
-	if(cursorPos >= maxcap)
-		return 0;
-
-	put(cursorPos++, translate(data));
-	return 1;
-}
-
-void HPDL1414::clear(void)
+void HPDL1414::_clear()
 {
 	/* Set characters to zero */
 	for(byte a = 0; a < 7; a++)
@@ -88,23 +115,6 @@ void HPDL1414::clear(void)
 		digitalWrite(wr[a], HIGH);
 
 	cursorPos = 0;
-};
-
-void HPDL1414::setCursor(byte pos)
-{
-	cursorPos = (pos >= maxcap) ? cursorPos : pos;
-}
-
-/* Decide if overflowing characters should be printed */
-void HPDL1414::printOverflow(bool a)
-{
-	printOvf = a;
-};
-
-/* Check how many segments are configured */
-byte HPDL1414::segments(void)
-{
-	return c;
 }
 
 void HPDL1414::put(byte pos, char data)
