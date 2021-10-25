@@ -26,8 +26,8 @@ class HPDL1414Scroll : public HPDL1414
 {
 	public:
 		/* 7 data pins [D0:D6], address [A0:A1], write enable [L:R], number of displays */
-		HPDL1414Scroll(byte _data[7], byte _address[2],
-		               byte _wren[], byte _count);
+		HPDL1414Scroll(const byte _data[7], const byte _address[2],
+		               const byte _wren[], const byte _count);
 
 		/* Init important(er) stuff */
 		virtual void begin(void) override;

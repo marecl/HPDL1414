@@ -19,23 +19,9 @@
 
 #include "HPDL1414.h"
 
-/*
-	to self: move all scroll/buffer to a separate class to save memory
-	also add method for adding external buffer
-	change translate to substitute value directly without a function call
-*/
-
-HPDL1414::HPDL1414(byte* _data, byte* _address,
-                   byte* _wren, byte _count)
-{
-	dp = _data;
-	ap = _address;
-	wr = _wren;
-	c = _count;
-	maxcap = c * 4;
-}
-
-HPDL1414::HPDL1414() {}
+HPDL1414::HPDL1414(const byte* _data, const byte* _address,
+                   const byte* _wren, const byte _count)
+	: dp(_data), ap(_address), wr(_wren), c(_count), maxcap(_count * 4) {}
 
 void HPDL1414::begin(void)
 {

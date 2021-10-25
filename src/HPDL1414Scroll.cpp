@@ -23,15 +23,9 @@
 	to self: add method for adding external buffer
 */
 
-HPDL1414Scroll::HPDL1414Scroll(byte* _data, byte* _address,
-                               byte* _wren, byte _count)
-{
-	dp = _data;
-	ap = _address;
-	wr = _wren;
-	c = _count;
-	maxcap = c * 4;
-};
+HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
+                               const byte* _wren, const byte _count)
+	: HPDL1414(_data, _address, _wren, _count) {};
 
 void HPDL1414Scroll::begin(void)
 {

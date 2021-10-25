@@ -49,8 +49,8 @@ class HPDL1414 : public Print
 		/* 7 data pins [D0:D6], address [A0:A1], write enable [L:R], number of displays */
 
 		// make this all const again or die trying
-		HPDL1414(byte _data[7], byte _address[2],
-		         byte _wren[], byte _count);
+		HPDL1414(const byte _data[7], const byte _address[2],
+		         const byte _wren[], const byte _count);
 
 		/* Init important stuff */
 		virtual void begin(void);
@@ -72,8 +72,6 @@ class HPDL1414 : public Print
 		byte segments(void);
 
 	protected:
-		/* In case if using HPDL1414Scroll */
-		HPDL1414();
 		/* Current cursor position */
 		byte cursorPos;
 		/* Misc */
@@ -84,11 +82,11 @@ class HPDL1414 : public Print
 		void put(byte, char);
 		char translate(char);
 		void setDigit(byte);
-		byte* dp;  // Data
-		byte* ap;  // Address
-		byte* wr;  // !Write Enable
-		byte c;    // Segments
-		byte maxcap; // Max digits
+		const byte* dp;  // Data
+		const byte* ap;  // Address
+		const byte* wr;  // !Write Enable
+		const byte c;    // Segments
+		const byte maxcap; // Max digits
 };
 
 #endif //HPDL1414_H
