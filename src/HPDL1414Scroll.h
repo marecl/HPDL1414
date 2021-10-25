@@ -26,8 +26,8 @@ class HPDL1414Scroll : public HPDL1414
 {
 	public:
 		/* 7 data pins [D0:D6], address [A0:A1], write enable [L:R], number of displays */
-		HPDL1414Scroll(const byte _data[7], const byte _address[2],
-		               const byte _wren[], const byte _count);
+		HPDL1414Scroll(byte _data[7], byte _address[2],
+		               byte _wren[], byte _count);
 
 		/* Init important(er) stuff */
 		void begin(void) override;
@@ -54,7 +54,7 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* Clears buffer and display */
 		virtual void clear(void) override;
-
+		
 		/* Set buffer cursor at */
 		void setBufferCursor(byte pos);
 
@@ -68,12 +68,6 @@ class HPDL1414Scroll : public HPDL1414
 		byte scrollEnd;
 		uint32_t scrollInterval;
 		uint32_t nextScroll;
-
-		const byte* dp;  // Data
-		const byte* ap;  // Address
-		const byte* wr;  // !Write Enable
-		const byte c;    // Segments
-		const byte maxcap; // Max digits
 };
 
 #endif //HPDL1414SCROLL_H

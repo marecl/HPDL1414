@@ -23,9 +23,15 @@
 	to self: add method for adding external buffer
 */
 
-HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
-                               const byte* _wren, const byte _count)
-	: dp(_data), ap(_address), wr(_wren), c(_count), maxcap(c * 4) {}
+HPDL1414Scroll::HPDL1414Scroll(byte* _data, byte* _address,
+                               byte* _wren, byte _count)
+{
+	dp = _data;
+	ap = _address;
+	wr = _wren;
+	c = _count;
+	maxcap = c * 4;
+};
 
 void HPDL1414Scroll::begin(void)
 {
@@ -51,7 +57,7 @@ void HPDL1414Scroll::begin(void)
 		pinMode(wr[a], OUTPUT);
 		digitalWrite(wr[a], HIGH);
 	}
-}
+};
 
 // won't allow writing more than the buffer can handle
 size_t HPDL1414Scroll::write(byte data)
