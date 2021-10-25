@@ -32,7 +32,10 @@ void HPDL1414::begin(void)
 size_t HPDL1414::write(byte data)
 {
 	if(cursorPos >= maxcap)
-		return 0;
+		if(printOvf)
+			cursorPos = 0;
+		else
+			return 0;
 
 	put(cursorPos++, translate(data));
 	return 1;
