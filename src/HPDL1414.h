@@ -25,22 +25,10 @@
 #include <string.h>
 
 /*
-	to self: change translate to substitute value directly without a function call
-	document defines
-	make defines work (in scroll too!)
-*/
-
-/*
 	Uncomment to skip checking/correcting incoming characters
 	By doing this you hereby promise to use uppercase letters only
 */
 //#define NO_ASCII_CHECK
-/*
-	All invalid cursor settings are clamped at max
-	This define will make invalid values valid
-	This affects both buffer and display
-*/
-//#define NO_CURSOR_CLAMP
 
 
 class HPDL1414 : public Print
