@@ -37,6 +37,7 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* But remember to display */
 		void display(void);
+		/* Cursor manipulation */
 		virtual void setCursor(int8_t pos);
 		virtual int8_t getCursor(void);
 
@@ -44,7 +45,7 @@ class HPDL1414Scroll : public HPDL1414
 		int8_t scroll(void);
 		void scrollToLeft(void);
 		void scrollToRight(void);
-		virtual void scrollReset(void); // autoscroll
+		void scrollReset(void); // autoscroll
 
 		/* Buffered string manipulation */
 		void setCharAt(byte pos, char data);		// in buffer

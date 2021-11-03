@@ -43,6 +43,7 @@ size_t HPDL1414::write(byte data)
 
 void HPDL1414::clear(void)
 {
+	cursorPos = 0;
 	_clear();
 };
 
@@ -107,14 +108,11 @@ void HPDL1414::_clear()
 	/* De-activate all segments back */
 	for(byte a = 0; a < c; a++)
 		digitalWrite(wr[a], HIGH);
-
-	cursorPos = 0;
 }
 
 void HPDL1414::put(byte pos, char data)
 {
 	setDigit(pos);
-	delayMicroseconds(10);
 	byte s = (pos - (pos % 4)) / 4;
 
 	for(byte x = 0; x < 7; x++)
@@ -124,9 +122,9 @@ void HPDL1414::put(byte pos, char data)
 	}
 
 	digitalWrite(wr[s], LOW);
-	delayMicroseconds(100); // Needs ~150ns so it's okay
+	delayMicroseconds(1); // Needs ~150ns so it's okay
 	digitalWrite(wr[s], HIGH);
-	delayMicroseconds(100);
+	delayMicroseconds(1);
 }
 
 /* For fastest I/O use uppercase only */

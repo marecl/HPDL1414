@@ -30,7 +30,7 @@ HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
 void HPDL1414Scroll::begin(void)
 {
 	_begin();
-	buflen = maxcap + 4;
+	buflen = maxcap;
 	buffer = new char[buflen];
 	bufferPos = 0;
 	printBufOvf = false;
@@ -64,7 +64,7 @@ void HPDL1414Scroll::display()
 		cursorPos = scrollOffset;
 		//bufferOffset = 0;
 	}
-
+	_clear();
 	while(true)
 	{
 		if(bufferOffset >= buflen) break;
@@ -82,8 +82,8 @@ void HPDL1414Scroll::display()
 /* now text position can only be manipulated through scroll */
 void HPDL1414Scroll::setCursor(int8_t pos)
 {
-	if(pos >= maxcap) return;
-	if(pos <= (-buflen)) return;
+	if(pos > maxcap) return;
+	if(pos < (-buflen)) return;
 
 	scrollOffset = pos;
 }
@@ -127,6 +127,7 @@ void HPDL1414Scroll::clear(void)
 	memset(buffer, ' ', maxcap);
 	bufferPos = 0;
 	scrollOffset = 0;
+	cursorPos = 0;
 };
 
 void HPDL1414Scroll::setBufferCursor(byte pos)
