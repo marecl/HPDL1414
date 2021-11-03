@@ -57,21 +57,31 @@ hpdl.clear()
 hpdl.setCursor(byte pos)
 ```
 
-### [WIP] Extra features
+### Scrolling
 This release of HPDL1414 library includes text scrolling via ```HPDL1414Scroll.h```.  
-It will require using new base object ```HPDL1414Scroll``` and ```display()``` method.  
-Features include:
-* Auto scrolling
-* Manual step
-* Scrolling direction
+To use new features just create ```HPDL1414Scroll``` object. Everything is printed to a buffer, so don't forget to call  ```display()```.  
+Scrolling moves the *entire* buffer in both ways.  
+Default buffer size is equal to the display. That means if you have 2 displays the buffer is 8 bytes, if you have 3 it's 12 etc.  
+You can provide external buffer with ```begin(char* bufptr, byte size)```. When in doubt, just use default ```begin()```.  
+Note that ```printOverflow()``` doesn't make sense when you use default text buffer. You should use ```printBufferOverflow()``` instead.
 
 ### Examples
-SegmentTest - Test one/more segments. Every segment will be counted.  
-OverflowTest - Change the default behaviour when characters don't fit in the display. Choose between truncating or auto-returning to the most left side.  
-(more to be added!)
+Base library is very simple and straightforward. You want something printed - you got it.  
+Scrolling however needs some explaination.  
+##### HPDL1414.h
+SegmentTest - Test one/more segments. Every segment will be counted  
+OverflowExample - Printing overflowing characters at the beginning of the display  
+
+##### HPDL1414Scroll.h
+ScrollExample - Scrolling text from left to right  
+ScrollBufferExample - Manipulating buffer contents  
+ScrollPong - Word floating left-right  
+ScrollAdvancedBuffer - Manipulating both buffer and printing positions  
+ScrollBufferOverflow - Printing overflowing characters at the beginning of the display  
+ScrollCustomBuffer - Using custom text buffer for greater flexibility
 
 ### Limitations
-These displays work on limited set of characters (ASCII 32-95). Library has built-in "translator" for lowercase letters.
+These displays work on limited set of characters (ASCII 32-95). Library has built-in "translator" for lowercase letters.  
 
 ### Does it work?
 ![Of course it does!](/res/testing.jpg)

@@ -29,12 +29,16 @@ HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
 
 void HPDL1414Scroll::begin(void)
 {
-	_begin();
+	_beginScroll();
 	buflen = maxcap;
 	buffer = new char[buflen];
-	bufferPos = 0;
-	printBufOvf = false;
-	scrollReset();
+};
+
+void HPDL1414Scroll::begin(char* bufptr, byte size)
+{
+	_beginScroll();
+	buflen = size;
+	buffer = bufptr;
 };
 
 // won't allow writing more than the buffer can handle
@@ -105,18 +109,18 @@ void HPDL1414Scroll::scrollToRight(void)
 
 void HPDL1414Scroll::scrollReset(void)
 {
-	scrollOffset = 0;
+	setCursor(0);
 }
 
 void HPDL1414Scroll::setCharAt(byte pos, char data)
 {
-	if(pos < maxcap)
+	if(pos < buflen)
 		buffer[pos] = translate(data);
 }
 
 char HPDL1414Scroll::charAt(byte pos)
 {
-	if(pos < maxcap)
+	if(pos < buflen)
 		return buffer[pos];
 	return 0;
 }
@@ -124,7 +128,7 @@ char HPDL1414Scroll::charAt(byte pos)
 void HPDL1414Scroll::clear(void)
 {
 	_clear();
-	memset(buffer, ' ', maxcap);
+	memset(buffer, 32, buflen);
 	bufferPos = 0;
 	scrollOffset = 0;
 	cursorPos = 0;
@@ -132,10 +136,18 @@ void HPDL1414Scroll::clear(void)
 
 void HPDL1414Scroll::setBufferCursor(byte pos)
 {
-	bufferPos = (pos >= maxcap) ? bufferPos : pos;
+	bufferPos = (pos >= buflen) ? bufferPos : pos;
 }
 
 void HPDL1414Scroll::printBufferOverflow(bool bufovf)
 {
 	printBufOvf = bufovf;
+}
+
+void HPDL1414Scroll::_beginScroll(void)
+{
+	_begin();
+	printBufOvf = false;
+	bufferPos = 0;
+	scrollOffset = 0;
 }

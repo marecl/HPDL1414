@@ -31,6 +31,7 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* Init important(er) stuff */
 		virtual void begin(void) override;
+		void begin(char*, byte);
 
 		/* Print whatever you want */
 		virtual size_t write(byte data) override;
@@ -38,14 +39,13 @@ class HPDL1414Scroll : public HPDL1414
 		/* But remember to display */
 		void display(void);
 		/* Cursor manipulation */
-		virtual void setCursor(int8_t pos);
-		virtual int8_t getCursor(void);
+		virtual void setCursor(int8_t pos) override;
+		virtual int8_t getCursor(void) override;
 
-		/* Scrolling */
-		int8_t scroll(void);
+		/* Scrolling. Basically setCursor but faster and more intuitive */
 		void scrollToLeft(void);
 		void scrollToRight(void);
-		void scrollReset(void); // autoscroll
+		void scrollReset(void);
 
 		/* Buffered string manipulation */
 		void setCharAt(byte pos, char data);		// in buffer
@@ -56,15 +56,18 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* Set buffer cursor at */
 		void setBufferCursor(byte pos);
+		/* Allow overflowing characters in buffer */
 		void printBufferOverflow(bool bufovf);
 
 	private:
+
+		void _beginScroll();
 
 		bool printBufOvf;
 
 		/* Text buffer */
 		uint8_t buflen;
-		byte* buffer;
+		char* buffer;
 		byte bufferPos;
 		/* Scroll internals */
 		signed short scrollOffset;
