@@ -37,15 +37,14 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* But remember to display */
 		void display(void);
+		virtual void setCursor(int8_t pos);
+		virtual int8_t getCursor(void);
 
 		/* Scrolling */
-		int8_t scroll(void);						// you want to call this every now and then when activated scrollAuto
-		int8_t scrollStop(void);					// stop auto-scroll
-		int8_t scrollManual(void);					// manual scroll (single step)
-		void scrollAuto(uint32_t interval);			// start autoscroll. default 100ms
-		void scrollReset(void);						// reset scroll settings
-		void scrollBoundaries(byte start, byte end);// beginning and end of scroll (shifts entire buffer)
-		void scrollDirection(bool lr);				// self-descriptive enough I think
+		int8_t scroll(void);
+		void scrollToLeft(void);
+		void scrollToRight(void);
+		virtual void scrollReset(void); // autoscroll
 
 		/* Buffered string manipulation */
 		void setCharAt(byte pos, char data);		// in buffer
@@ -53,20 +52,23 @@ class HPDL1414Scroll : public HPDL1414
 
 		/* Clears buffer and display */
 		virtual void clear(void) override;
-		
+
 		/* Set buffer cursor at */
 		void setBufferCursor(byte pos);
+		void printBufferOverflow(bool bufovf);
 
 	private:
+
+		bool printBufOvf;
+
 		/* Text buffer */
+		uint8_t buflen;
 		byte* buffer;
 		byte bufferPos;
 		/* Scroll internals */
-		byte scrollOffset;
+		signed short scrollOffset;
 		byte scrollStart;
 		byte scrollEnd;
-		uint32_t scrollInterval;
-		uint32_t nextScroll;
 };
 
 #endif //HPDL1414SCROLL_H

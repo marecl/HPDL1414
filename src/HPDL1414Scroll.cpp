@@ -30,16 +30,18 @@ HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
 void HPDL1414Scroll::begin(void)
 {
 	_begin();
-	scrollReset();
-	buffer = new char[maxcap];
+	buflen = maxcap + 4;
+	buffer = new char[buflen];
 	bufferPos = 0;
+	printBufOvf = false;
+	scrollReset();
 };
 
 // won't allow writing more than the buffer can handle
 size_t HPDL1414Scroll::write(byte data)
 {
-	if(bufferPos >= maxcap)
-		if(printOvf)
+	if(bufferPos >= (buflen))
+		if(printBufOvf)
 			bufferPos = 0;
 		else return 0;
 
@@ -49,10 +51,23 @@ size_t HPDL1414Scroll::write(byte data)
 
 void HPDL1414Scroll::display()
 {
-	byte bp = 0;
+	byte bufferOffset = 0;
+	cursorPos = 0;
+	if(scrollOffset < 0) // scrolling to left
+	{
+		// commented out because they are already initialized, but shows they are necessary
+		//cursorPos = 0;
+		bufferOffset = abs(scrollOffset);
+	}
+	if(scrollOffset > 0) // scrolling to right
+	{
+		cursorPos = scrollOffset;
+		//bufferOffset = 0;
+	}
+
 	while(true)
 	{
-		if(bp >= maxcap) break;
+		if(bufferOffset >= buflen) break;
 		if(cursorPos >= maxcap)
 		{
 			if(printOvf)
@@ -60,54 +75,37 @@ void HPDL1414Scroll::display()
 			else break;
 		}
 
-		put(cursorPos++, buffer[bp++]);
+		put(cursorPos++, buffer[bufferOffset++]);
 	}
 }
 
-/* They return how far the text is scrolled */
-int8_t HPDL1414Scroll::scroll(void)		// auto-scroll loop
+/* now text position can only be manipulated through scroll */
+void HPDL1414Scroll::setCursor(int8_t pos)
 {
-	if(nextScroll == 0) return 0;
-	if(millis() < nextScroll) return 0;
+	if(pos >= maxcap) return;
+	if(pos <= (-buflen)) return;
 
-	scrollManual();
-	nextScroll = millis() + scrollInterval;
+	scrollOffset = pos;
 }
 
-int8_t HPDL1414Scroll::scrollStop(void)   // stop auto-scroll loop
+int8_t HPDL1414Scroll::getCursor(void)
 {
-	nextScroll = 0;
+	return scrollOffset;
 }
 
-int8_t HPDL1414Scroll::scrollManual(void)	// single step
+void HPDL1414Scroll::scrollToLeft(void)
 {
-	Serial.println("Scrolled");
+	setCursor(scrollOffset - 1);
 }
 
-void HPDL1414Scroll::scrollBoundaries(byte start, byte end)
+void HPDL1414Scroll::scrollToRight(void)
 {
-	scrollStart = start;
-	scrollEnd = end;
-}
-
-void HPDL1414Scroll::scrollDirection(bool lr)
-{
-
-}
-
-void HPDL1414Scroll::scrollAuto(uint32_t interval = 100) // start auto-scroll
-{
-	scrollInterval = interval;
-	nextScroll = millis() + scrollInterval;
+	setCursor(scrollOffset + 1);
 }
 
 void HPDL1414Scroll::scrollReset(void)
 {
 	scrollOffset = 0;
-	nextScroll = 0;
-	scrollInterval = 100;
-	scrollStart = 0;
-	scrollEnd = maxcap;
 }
 
 void HPDL1414Scroll::setCharAt(byte pos, char data)
@@ -128,9 +126,15 @@ void HPDL1414Scroll::clear(void)
 	_clear();
 	memset(buffer, ' ', maxcap);
 	bufferPos = 0;
+	scrollOffset = 0;
 };
 
 void HPDL1414Scroll::setBufferCursor(byte pos)
 {
 	bufferPos = (pos >= maxcap) ? bufferPos : pos;
+}
+
+void HPDL1414Scroll::printBufferOverflow(bool bufovf)
+{
+	printBufOvf = bufovf;
 }

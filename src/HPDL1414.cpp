@@ -46,9 +46,14 @@ void HPDL1414::clear(void)
 	_clear();
 };
 
-void HPDL1414::setCursor(byte pos)
+void HPDL1414::setCursor(int8_t pos)
 {
 	cursorPos = (pos >= maxcap) ? cursorPos : pos;
+}
+
+int8_t HPDL1414::getCursor(void)
+{
+	return cursorPos;
 }
 
 /* Decide if overflowing characters should be printed */
@@ -109,15 +114,19 @@ void HPDL1414::_clear()
 void HPDL1414::put(byte pos, char data)
 {
 	setDigit(pos);
+	delayMicroseconds(10);
 	byte s = (pos - (pos % 4)) / 4;
 
 	for(byte x = 0; x < 7; x++)
+	{
 		digitalWrite(dp[x], ((data >> x) & 0x01));
+		delayMicroseconds(10);
+	}
 
 	digitalWrite(wr[s], LOW);
-	delayMicroseconds(1); // Needs ~150ns so it's okay
+	delayMicroseconds(100); // Needs ~150ns so it's okay
 	digitalWrite(wr[s], HIGH);
-	delayMicroseconds(1);
+	delayMicroseconds(100);
 }
 
 /* For fastest I/O use uppercase only */

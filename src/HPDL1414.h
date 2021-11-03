@@ -65,7 +65,8 @@ class HPDL1414 : public Print
 		/* Clears buffer and display */
 		virtual void clear(void);
 		/* Sets display cursor only */
-		void setCursor(byte pos);
+		virtual void setCursor(int8_t pos);
+		virtual int8_t getCursor(void);
 
 		/* Misc */
 		void printOverflow(bool);
