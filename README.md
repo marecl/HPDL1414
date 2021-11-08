@@ -23,19 +23,20 @@ HPDL1414 hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 ### Connection
 Pinout below is used in library examples.
 | Physical | Name |Arduino Pin|
-|:--------:|:----:|--------:|
-|     1*   |  D5  |    D7   |
-|     2    |  D4  |    D6   |
-|     3    | !WE  |   D11   |
-|     4    |  A1  |   D10   |
-|     5    |  A0  |    D9   |
-|     6    | Vcc  |    5V   |
-|     7    | GND  |   GND   |
-|     8    |  D0  |    D2   |
-|     9    |  D1  |    D3   |
-|    10    |  D2  |    D4   |
-|    11    |  D3  |    D5   |
-|    12    |  D6  |    D8   |
+|:--------:|:----:|:---------:|
+|     1*   |  D5  |     D7    |
+|     2    |  D4  |     D6    |
+|     3    | !WE  |    D11    |
+|     4    |  A1  |    D10    |
+|     5    |  A0  |     D9    |
+|     6    | Vcc  |     5V    |
+|     7    | GND  |    GND    |
+|     8    |  D0  |     D2    |
+|     9    |  D1  |     D3    |
+|    10    |  D2  |     D4    |
+|    11    |  D3  |     D5    |
+|    12    |  D6  |     D8    |
+
 Pin 1 is marked with a notch.
 
 ### Daisychain
