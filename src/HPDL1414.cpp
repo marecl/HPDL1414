@@ -28,7 +28,6 @@ void HPDL1414::begin(void)
 	_begin();
 }
 
-// won't allow writing more than the buffer can handle
 size_t HPDL1414::write(byte data)
 {
 	if(cursorPos >= maxcap)
@@ -122,15 +121,15 @@ void HPDL1414::put(byte pos, char data)
 	}
 
 	digitalWrite(wr[s], LOW);
-	delayMicroseconds(1); // Needs ~150ns so it's okay
+	delayMicroseconds(1);		// Needs ~150ns so it's okay
 	digitalWrite(wr[s], HIGH);
 	delayMicroseconds(1);
 }
 
-/* For fastest I/O use uppercase only */
-char HPDL1414::translate(char i)
+/* Translate lowercase ASCII into uppercase and soft-remove illegal characters */
+inline char HPDL1414::translate(char i)
 {
-#ifdef NO_ASCII_CHECK
+#ifdef NO_ASCII_TRANSLATION
 	return i;
 #else
 	return((i > 31 && i < 96) ? i : ((i > 96 && i < 123) ? i - 32 : 32));

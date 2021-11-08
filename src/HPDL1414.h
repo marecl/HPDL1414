@@ -28,7 +28,7 @@
 	Uncomment to skip checking/correcting incoming characters
 	By doing this you hereby promise to use uppercase letters only
 */
-//#define NO_ASCII_CHECK
+//#define NO_ASCII_TRANSLATION
 
 
 class HPDL1414 : public Print
@@ -46,13 +46,9 @@ class HPDL1414 : public Print
 		/* Print whatever you want */
 		virtual size_t write(byte data);
 
-		/* Buffered string manipulation */
-		void setCharAt(byte pos, char data);	// in buffer
-		char charAt(byte pos);					// in buffer
-
-		/* Clears buffer and display */
+		/* Clears  display */
 		virtual void clear(void);
-		/* Sets display cursor only */
+		/* Sets display cursor */
 		virtual void setCursor(int8_t pos);
 		virtual int8_t getCursor(void);
 
@@ -71,11 +67,11 @@ class HPDL1414 : public Print
 		void put(byte, char);
 		char translate(char);
 		void setDigit(byte);
-		const byte* dp;  // Data
-		const byte* ap;  // Address
-		const byte* wr;  // !Write Enable
-		const byte c;    // Segments
-		const byte maxcap; // Max digits
+		const byte* dp;		// Data
+		const byte* ap;		// Address
+		const byte* wr;		// !Write Enable
+		const byte c;		// Segments
+		const byte maxcap;	// Max digits
 };
 
 #endif //HPDL1414_H

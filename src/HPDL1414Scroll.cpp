@@ -19,10 +19,7 @@
 
 #include "HPDL1414Scroll.h"
 
-/*
-	to self: add method for adding external buffer
-*/
-
+/* Create just like normal HPDL1414 object */
 HPDL1414Scroll::HPDL1414Scroll(const byte* _data, const byte* _address,
                                const byte* _wren, const byte _count)
 	: HPDL1414(_data, _address, _wren, _count) {};
@@ -41,7 +38,6 @@ void HPDL1414Scroll::begin(char* bufptr, byte size)
 	buffer = bufptr;
 };
 
-// won't allow writing more than the buffer can handle
 size_t HPDL1414Scroll::write(byte data)
 {
 	if(bufferPos >= (buflen))
@@ -57,18 +53,20 @@ void HPDL1414Scroll::display()
 {
 	byte bufferOffset = 0;
 	cursorPos = 0;
-	if(scrollOffset < 0) // scrolling to left
+	if(scrollOffset < 0) // Scrolling to the left
 	{
-		// commented out because they are already initialized, but shows they are necessary
+		// Commented out because they are already initialized, but shows they are necessary
 		//cursorPos = 0;
 		bufferOffset = abs(scrollOffset);
 	}
-	if(scrollOffset > 0) // scrolling to right
+	if(scrollOffset > 0) // Scrolling to the right
 	{
 		cursorPos = scrollOffset;
 		//bufferOffset = 0;
 	}
+
 	_clear();
+
 	while(true)
 	{
 		if(bufferOffset >= buflen) break;
@@ -83,7 +81,7 @@ void HPDL1414Scroll::display()
 	}
 }
 
-/* now text position can only be manipulated through scroll */
+/* "Cursor" is a fancy name for scrolled text */
 void HPDL1414Scroll::setCursor(int8_t pos)
 {
 	if(pos > maxcap) return;

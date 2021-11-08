@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
 #ifndef HPDL1414SCROLL_H
 #define HPDL1414SCROLL_H
 
@@ -48,8 +49,8 @@ class HPDL1414Scroll : public HPDL1414
 		void scrollReset(void);
 
 		/* Buffered string manipulation */
-		void setCharAt(byte pos, char data);		// in buffer
-		char charAt(byte pos);						// in buffer
+		void setCharAt(byte pos, char data);
+		char charAt(byte pos);
 
 		/* Clears buffer and display */
 		virtual void clear(void) override;
@@ -69,7 +70,7 @@ class HPDL1414Scroll : public HPDL1414
 		uint8_t buflen;
 		char* buffer;
 		byte bufferPos;
-		/* Scroll internals */
+		/* Scroll */
 		signed short scrollOffset;
 		byte scrollStart;
 		byte scrollEnd;
