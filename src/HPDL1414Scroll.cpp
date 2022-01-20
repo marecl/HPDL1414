@@ -149,3 +149,13 @@ void HPDL1414Scroll::_beginScroll(void)
 	bufferPos = 0;
 	scrollOffset = 0;
 }
+
+/* Translate lowercase ASCII into uppercase and soft-remove illegal characters */
+inline char HPDL1414::translate(char i)
+{
+#ifdef NO_ASCII_TRANSLATION
+	return i;
+#else
+	return((i > 31 && i < 96) ? i : ((i > 96 && i < 123) ? i - 32 : 32));
+#endif
+}
