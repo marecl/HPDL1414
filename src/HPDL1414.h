@@ -65,8 +65,8 @@ class HPDL1414 : public Print
 		void _begin();
 		void _clear();
 		void put(byte, char);
-		char translate(char);
 		void setDigit(byte);
+		virtual char translate(char);
 		const byte* dp;		// Data
 		const byte* ap;		// Address
 		const byte* wr;		// !Write Enable
