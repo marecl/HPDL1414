@@ -87,7 +87,7 @@ You can disable character validation by defining ```NO_ASCII_TRANSLATION``` befo
 
 ### TODO
 Recode assignments to use ```translate``` as little as possible, including operator.  
-String validation/automatic translation is also an option.
+String validation/automatic translation is also an option. Possibly return current buffer contents.
 
 ### Does it work?
 ![Of course it does!](/res/testing.jpg)
