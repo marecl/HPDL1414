@@ -7,9 +7,9 @@
 
 */
 
-const byte dataPins[7] = {2, 3, 4, 5, 6, 7, 8};	// Segment data pins: D0 - D6
-const byte addrPins[2] = {9, 10};				// Segment address pins: A0, A1
-const byte wrenPins[] = {11};					// Write Enable pins (left to right)
+const byte dataPins[7] = {2, 3, 4, 5, 6, 7, 8}; // Segment data pins: D0 - D6
+const byte addrPins[2] = {9, 10};               // Segment address pins: A0, A1
+const byte wrenPins[] = {11};                   // Write Enable pins (left to right)
 
 HPDL1414Scroll hpdl(dataPins, addrPins, wrenPins, sizeof(wrenPins));
 
@@ -17,8 +17,12 @@ int characters;
 
 void setup()
 {
-  hpdl.begin();
-  hpdl.clear();
+  if (!hpdl.begin())
+  {
+    // Serial.println("Can't allocate buffer memory!");
+    while (true)
+      ;
+  }
 
   // This will start writing at the first digit of the display
   hpdl.print("XD");
@@ -73,5 +77,4 @@ void setup()
 
 void loop()
 {
-
 }

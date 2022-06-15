@@ -1,37 +1,38 @@
 /*
-    HPDL1414 Arduino Library
+	HPDL1414 Arduino Library
 
-    Copyright (C) 2021  Marek Ledworowski (@marecl)
+	Copyright (C) 2021  Marek Ledworowski (@marecl)
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "HPDL1414.h"
 
-HPDL1414::HPDL1414(const byte* _data, const byte* _address,
-                   const byte* _wren, const byte _count)
+HPDL1414::HPDL1414(const byte *_data, const byte *_address,
+				   const byte *_wren, const byte _count)
 	: dp(_data), ap(_address), wr(_wren), c(_count), maxcap(_count * 4) {}
 
-void HPDL1414::begin(void)
+bool HPDL1414::begin(void)
 {
 	_begin();
+	return true;
 }
 
 size_t HPDL1414::write(byte data)
 {
-	if(cursorPos >= maxcap)
-		if(printOvf)
+	if (cursorPos >= maxcap)
+		if (printOvf)
 			cursorPos = 0;
 		else
 			return 0;
@@ -73,17 +74,17 @@ void HPDL1414::_begin(void)
 	cursorPos = 0;
 	printOvf = false;
 
-	for(byte a = 0; a < 7; a++)
+	for (byte a = 0; a < 7; a++)
 	{
 		pinMode(dp[a], OUTPUT);
 		digitalWrite(dp[a], LOW);
 	}
-	for(byte a = 0; a < 2; a++)
+	for (byte a = 0; a < 2; a++)
 	{
 		pinMode(ap[a], OUTPUT);
 		digitalWrite(ap[a], LOW);
 	}
-	for(byte a = 0; a < c; a++)
+	for (byte a = 0; a < c; a++)
 	{
 		pinMode(wr[a], OUTPUT);
 		digitalWrite(wr[a], HIGH);
@@ -93,19 +94,19 @@ void HPDL1414::_begin(void)
 void HPDL1414::_clear()
 {
 	/* Set characters to zero */
-	for(byte a = 0; a < 7; a++)
+	for (byte a = 0; a < 7; a++)
 		digitalWrite(dp[a], LOW);
 
 	/* Activate all segments */
-	for(byte a = 0; a < c; a++)
+	for (byte a = 0; a < c; a++)
 		digitalWrite(wr[a], LOW);
 
 	/* Sweep all address lines */
-	for(byte a = 0; a < 4; a++)
+	for (byte a = 0; a < 4; a++)
 		setDigit(a);
 
 	/* De-activate all segments back */
-	for(byte a = 0; a < c; a++)
+	for (byte a = 0; a < c; a++)
 		digitalWrite(wr[a], HIGH);
 }
 
@@ -114,14 +115,14 @@ void HPDL1414::put(byte pos, char data)
 	setDigit(pos);
 	byte s = (pos - (pos % 4)) / 4;
 
-	for(byte x = 0; x < 7; x++)
+	for (byte x = 0; x < 7; x++)
 	{
 		digitalWrite(dp[x], ((data >> x) & 0x01));
 		delayMicroseconds(10);
 	}
 
 	digitalWrite(wr[s], LOW);
-	delayMicroseconds(1);		// Needs ~150ns so it's okay
+	delayMicroseconds(1); // Needs ~150ns so it's okay
 	digitalWrite(wr[s], HIGH);
 	delayMicroseconds(1);
 }
@@ -132,7 +133,7 @@ inline char HPDL1414::translate(char i)
 #ifdef NO_ASCII_TRANSLATION
 	return i;
 #else
-	return((i > 31 && i < 96) ? i : ((i > 96 && i < 123) ? i - 32 : 32));
+	return ((i > 31 && i < 96) ? i : ((i > 96 && i < 123) ? i - 32 : 32));
 #endif
 }
 

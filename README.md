@@ -62,6 +62,10 @@ Default buffer size is equal to the display. That means if you have 2 displays t
 You can provide external buffer with ```begin(char* bufptr, byte size)```. When in doubt, just use default ```begin()```.  
 Note that ```printOverflow()``` doesn't make sense when you use default text buffer. You should use ```printBufferOverflow()``` instead.
 
+#### Buffer access  
+Since buffer is stored as C-style char array it might be unnecessary to use C++-style string operators.  
+To get char at selected position you can use normal array operators i.e. ```hpdl[1]```. You must provide a valid character or use ```translate(char)```.
+
 ### Examples
 Base library is very simple and straightforward. You want something printed - you got it.  
 Scrolling however needs some explaination.  
@@ -80,6 +84,10 @@ ScrollCustomBuffer - Using custom text buffer for greater flexibility
 ### Limitations
 These displays work on limited set of characters (ASCII 32-95). Library has built-in "translator" for lowercase letters.  
 You can disable character validation by defining ```NO_ASCII_TRANSLATION``` before include, or uncommenting it in ```HPDL1414.h``` directly.  
+
+### TODO
+Recode assignments to use ```translate``` as little as possible, including operator.  
+String validation/automatic translation is also an option.
 
 ### Does it work?
 ![Of course it does!](/res/testing.jpg)
