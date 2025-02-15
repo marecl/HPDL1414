@@ -157,6 +157,7 @@ char &HPDL1414Scroll::operator[](byte i)
 {
 	if (i < this->buflen)
 		return this->buffer[i];
+	return 0;
 }
 
 void HPDL1414Scroll::_beginScroll(void)
